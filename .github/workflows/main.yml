@@ -4,22 +4,28 @@
       API_KEY: ${{ secrets.API_KEY }}
       PROMPT: ${{ github.event.inputs.prompt }}
     run: |
-      # This is a simple API call using curl.
       RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}" \
       -H 'Content-Type: application/json' \
       -d "{\"contents\": [{\"parts\": [{\"text\": \"${PROMPT}\"}]}]}")
       
-      # Parse the response to get the answer
-      ANSWER=$(echo "$RESPONSE" | grep -oP '(?<="text": ")[^"]*')
+      # Use grep to extract the text, handling escaped quotes
+      ANSWER=$(echo "$RESPONSE" | grep -oP '(?<="text": ")[^"]*' | head -n 1)
+      
+      # If grep fails, try a different parsing method
+      if [ -z "$ANSWER" ]; then
+          ANSWER=$(echo "$RESPONSE" | python3 -c "import sys, json; print(json.load(sys.stdin)['candidates'][0]['content']['parts'][0]['text'])")
+      fi
+      
+      # Escape quotes and backslashes for bash output
+      ESCAPED_ANSWER=$(echo "$ANSWER" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
       
       # Output the answer
-      echo "answer=$ANSWER" >> $GITHUB_OUTPUT
+      echo "answer=\"$ESCAPED_ANSWER\"" >> $GITHUB_OUTPUT
 
   - name: Store Answer for Website
     run: |
-      # The answer is available as an output of the previous step.
-      # We can save it to a file or use it in other steps.
-      echo "${{ steps.gemini-api-call.outputs.answer }}" > answer.txt
+      ANSWER="${{ steps.gemini-api-call.outputs.answer }}"
+      echo "$ANSWER" > answer.txt
       echo "Answer saved to answer.txt"
       
   - name: Commit and push changes
