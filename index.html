@@ -4,151 +4,226 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ఆధ్యాత్మిక మార్గదర్శి</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: 'Noto Sans Telugu', sans-serif;
-            background-color: #F3F4F6;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
         }
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;700&display=swap');
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        .content {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        h2 {
+            color: #4CAF50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .login-container.active {
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #error-message {
+            color: red;
+            margin-top: 10px;
+        }
+
+        .qa-container {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        #question-input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #answer-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: left;
+            white-space: pre-wrap;
+        }
     </style>
 </head>
-<body class="bg-gray-100 p-6">
+<body>
 
-    <!-- Login Page -->
-    <div id="login-container" class="min-h-screen flex items-center justify-center bg-gray-100 hidden">
-        <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-            <h2 class="text-2xl font-bold text-center text-teal-600 mb-6">లాగిన్</h2>
-            <form id="login-form">
-                <div class="mb-4">
-                    <label for="username" class="block text-gray-700 font-bold mb-2">యూజర్‌నేమ్:</label>
-                    <input type="text" id="username" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required>
-                </div>
-                <div class="mb-6">
-                    <label for="password" class="block text-gray-700 font-bold mb-2">పాస్‌వర్డ్:</label>
-                    <input type="password" id="password" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required>
-                </div>
-                <button type="submit" class="w-full bg-teal-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-teal-700 transition duration-300">
-                    లాగిన్ చేయండి
-                </button>
-                <p id="error-message" class="text-red-500 text-center mt-4 hidden">యూజర్‌నేమ్ లేదా పాస్‌వర్డ్ తప్పు.</p>
-            </form>
-        </div>
+    <div id="login-form" class="login-container active">
+        <h2>లాగిన్</h2>
+        <input type="text" id="username" placeholder="యూజర్‌నేమ్" required>
+        <input type="password" id="password" placeholder="పాస్‌వర్డ్" required>
+        <button onclick="login()">లాగిన్</button>
+        <div id="error-message"></div>
     </div>
 
-    <!-- Main Website Content -->
-    <div id="website-content" class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md hidden">
-        <h1 class="text-4xl font-bold text-center text-teal-600 mb-6">ఆధ్యాత్మిక మార్గదర్శి</h1>
+    <div id="main-content" class="container">
+        <h1>ఆధ్యాత్మిక మార్గదర్శి</h1>
+        <p>జీవితంలో మెరుగైన, సంతోషకరమైన మార్గాన్ని అన్వేషించడానికి ఇది ఒక వేదిక. ఆధ్యాత్మికత, జ్యోతిష్యం, జీవనశైలి మరియు మరెన్నో కొత్త విషయాలను ఇక్కడ తెలుసుకోవచ్చు.</p>
 
-        <p class="text-lg text-gray-700 text-center mb-10">
-            జీవితంలో మెరుగైన, సంతోషకరమైన మార్గాన్ని అన్వేషించడానికి ఇది ఒక వేదిక. ఆధ్యాత్మికత, జ్యోతిష్యం, జీవనశైలి మరియు మరిన్ని కొత్త విషయాలను ఇక్కడ తెలుసుకోవచ్చు.
-        </p>
-
-        <!-- Existing content sections -->
-        <div class="mb-8">
-            <h2 class="text-3xl font-bold text-teal-500 mb-4">జ్యోతిష్యం</h2>
-            <p class="text-gray-600">
-                జ్యోతిష్యం అనేది ఖగోళ వస్తువుల స్థానాలను బట్టి మానవ జీవితంపై వాటి ప్రభావాలను అధ్యయనం చేసే ఒక పురాతన శాస్త్రం. ఇక్కడ మేము రాశి ఫలాలు మరియు వాటి ప్రాముఖ్యత గురించి వివరిస్తాము.
-            </p>
-        </div>
-
-        <div class="mb-8">
-            <h2 class="text-3xl font-bold text-teal-500 mb-4">జీవనశైలి & ఆహారపు అలవాట్లు</h2>
-            <p class="text-gray-600">
-                ఆరోగ్యకరమైన జీవనశైలి మరియు మంచి ఆహారపు అలవాట్లు మన శరీరానికి, మనసుకు చాలా అవసరం. మానసిక శాంతి, ఆరోగ్యకరమైన ఆహార నియమాలు మరియు సరళమైన యోగా చిట్కాల గురించి ఇక్కడ సమాచారం ఉంటుంది.
-            </p>
-        </div>
-
-        <!-- New section for the Q&A feature -->
-        <div id="ai-section" class="mt-10 p-6 bg-teal-50 rounded-lg shadow-inner">
-            <h2 class="text-3xl font-bold text-teal-600 mb-4">మీ ప్రశ్నలకు సమాధానాలు</h2>
-            <p class="text-gray-600 mb-4">
-                మీకు ఆధ్యాత్మికత లేదా జ్యోతిష్యం గురించి ఏ ప్రశ్న ఉన్నా ఇక్కడ అడగవచ్చు. మేము మీకు సహాయం చేస్తాము.
-            </p>
-            <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                <input id="user-question" type="text" placeholder="మీ ప్రశ్నను ఇక్కడ టైప్ చేయండి..." class="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500">
-                <button id="ask-button" class="bg-teal-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-teal-700 transition duration-300">
-                    సమాధానం అడగండి
-                </button>
+        <div class="content">
+            <div class="section">
+                <h2>జ్యోతిష్యం</h2>
+                <p>జ్యోతిష్యం అనేది గ్రహ వస్తువుల స్థానాలను బట్టి మానవ జీవితంపై వాటి ప్రభావాలను అధ్యయనం చేసే ఒక పురాతన శాస్త్రం. ఇక్కడ మేము రాశి ఫలాలు మరియు వాటి ప్రాముఖ్యత గురించి వివరిస్తాము.</p>
             </div>
-            <div id="response-area" class="mt-6 p-4 bg-white border border-gray-300 rounded-lg hidden">
-                <p id="response-text" class="text-gray-800"></p>
+            
+            <div class="section">
+                <h2>జీవనశైలి & ఆహారపు అలవాట్లు</h2>
+                <p>ఆరోగ్యకరమైన జీవనశైలి మరియు మంచి ఆహారపు అలవాట్లు మన శరీరానికి, మనసుకు చాలా అవసరం. మానసిక శాంతి, ఆరోగ్యకరమైన ఆహార నియమాలు మరియు సరళమైన యోగా చిట్కాల గురించి ఇక్కడ సమాచారం ఉంటుంది.</p>
             </div>
-            <div id="loading-indicator" class="mt-4 text-center text-teal-600 hidden">
-                <svg class="animate-spin h-8 w-8 text-teal-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                <p class="mt-2">సమాధానం వస్తోంది...</p>
+
+            <div class="qa-container">
+                <h2>మీ ప్రశ్నలకు సమాధానాలు</h2>
+                <p>మీకు ఆధ్యాత్మికత లేదా జ్యోతిష్యం గురించి ఏ ప్రశ్న ఉన్నా ఇక్కడ అడగవచ్చు. మేము మీకు సహాయం చేస్తాము.</p>
+                <input type="text" id="question-input" placeholder="మీ ప్రశ్నను ఇక్కడ టైప్ చేయండి">
+                <button onclick="getAiResponse()">సమాధానం పొందండి</button>
+                <div id="answer-box">సమాధానం ఇక్కడ కనిపిస్తుంది...</div>
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginContainer = document.getElementById('login-container');
-            const websiteContent = document.getElementById('website-content');
-            const loginForm = document.getElementById('login-form');
-            const usernameInput = document.getElementById('username');
-            const passwordInput = document.getElementById('password');
+        const correctUsername = "Aum";
+        const correctPassword = "2024";
+
+        function login() {
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
             const errorMessage = document.getElementById('error-message');
+            
+            if (usernameInput === correctUsername && passwordInput === correctPassword) {
+                document.getElementById('login-form').classList.remove('active');
+                document.getElementById('main-content').style.display = 'block';
+            } else {
+                errorMessage.textContent = 'తప్పు యూజర్‌నేమ్ లేదా పాస్‌వర్డ్.';
+            }
+        }
 
-            const askButton = document.getElementById('ask-button');
-            const userQuestion = document.getElementById('user-question');
-            const responseArea = document.getElementById('response-area');
-            const responseText = document.getElementById('response-text');
-            const loadingIndicator = document.getElementById('loading-indicator');
+        async function getAiResponse() {
+            const questionInput = document.getElementById('question-input');
+            const answerBox = document.getElementById('answer-box');
+            const question = questionInput.value;
 
-            // యూజర్‌నేమ్ మరియు పాస్‌వర్డ్‌ను ఇక్కడ మార్చవచ్చు
-            const correctUsername = 'Aum'; 
-            const correctPassword = '2024';
-
-            // మొదట లాగిన్ పేజీని చూపించండి
-            loginContainer.classList.remove('hidden');
-
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const username = usernameInput.value.trim();
-                const password = passwordInput.value.trim();
-
-                if (username === correctUsername && password === correctPassword) {
-                    loginContainer.classList.add('hidden');
-                    websiteContent.classList.remove('hidden');
-                } else {
-                    errorMessage.classList.remove('hidden');
-                }
-            });
-
-            async function getAiResponse() {
-                loadingIndicator.classList.remove('hidden');
-                responseArea.classList.add('hidden');
-                
-                try {
-                    const response = await fetch('/answer.txt');
-                    const answer = await response.text();
-                    
-                    if (answer) {
-                        responseText.textContent = answer;
-                    } else {
-                        responseText.textContent = "సమాధానం కనుగొనడంలో లోపం సంభవించింది. దయచేసి మళ్ళీ ప్రయత్నించండి.";
-                    }
-                } catch (error) {
-                    console.error('Error fetching AI response:', error);
-                    responseText.textContent = "సమాధానం కనుగొనడంలో లోపం సంభవించింది. దయచేసి మళ్ళీ ప్రయత్నించండి.";
-                } finally {
-                    loadingIndicator.classList.add('hidden');
-                    responseArea.classList.remove('hidden');
-                }
+            if (question.trim() === '') {
+                answerBox.textContent = 'దయచేసి ఒక ప్రశ్నను టైప్ చేయండి.';
+                return;
             }
 
-            askButton.addEventListener('click', () => {
-                const question = userQuestion.value.trim();
-                if (question) {
-                    getAiResponse();
-                }
-            });
-        });
-    </script>
+            answerBox.textContent = 'సమాధానం కోసం వేచి ఉండండి...';
 
+            const response = await fetch(`https://api.github.com/repos/khari-reddy/Aadhyatmika-Margadarshi/dispatches`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Authorization': `token {{ secrets.GITHUB_TOKEN }}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'event_type': 'ask-gemini-event',
+                    'client_payload': {
+                        'prompt': question
+                    }
+                })
+            });
+
+            if (response.status === 204) {
+                // If the dispatch is successful, we wait for the answer.txt file
+                let answerFound = false;
+                let attempts = 0;
+                const maxAttempts = 20; // Try for up to 20 seconds
+                const delay = 1000; // 1 second
+
+                while (!answerFound && attempts < maxAttempts) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    try {
+                        const answerResponse = await fetch('answer.txt');
+                        if (answerResponse.ok) {
+                            const answer = await answerResponse.text();
+                            answerBox.textContent = answer;
+                            answerFound = true;
+                        }
+                    } catch (error) {
+                        console.error("Error fetching answer:", error);
+                    }
+                    attempts++;
+                }
+
+                if (!answerFound) {
+                    answerBox.textContent = 'సమాధానం పొందడంలో సమస్య వచ్చింది. దయచేసి మళ్లీ ప్రయత్నించండి.';
+                }
+            } else {
+                answerBox.textContent = 'ప్రశ్న పంపడంలో సమస్య వచ్చింది. దయచేసి మళ్లీ ప్రయత్నించండి.';
+            }
+        }
+    </script>
 </body>
 </html>
