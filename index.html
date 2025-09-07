@@ -4,46 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ఆధ్యాత్మిక మార్గదర్శి</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            text-align: center;
+            font-family: 'Noto Sans Telugu', sans-serif;
+            background-color: #F3F4F6;
         }
-        .container {
-            width: 90%;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #4CAF50;
-        }
-        p {
-            line-height: 1.6;
-        }
-        .content {
-            margin-top: 20px;
-            text-align: left;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;700&display=swap');
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>ఆధ్యాత్మిక మార్గదర్శి</h1>
-        <p>జీవితంలో మెరుగైన, సంతోషకరమైన మార్గాన్ని అన్వేషించడానికి ఇది ఒక వేదిక. ఆధ్యాత్మికత, జ్యోతిష్యం, జీవనశైలి మరియు మరెన్నో కొత్త విషయాలను ఇక్కడ తెలుసుకోవచ్చు.</p>
-        <div class="content">
-            <h2>జ్యోతిష్యం</h2>
-            <p>జ్యోతిష్యం అనేది ఖగోళ వస్తువుల స్థానాలను బట్టి మానవ జీవితంపై వాటి ప్రభావాలను అధ్యయనం చేసే ఒక పురాతన శాస్త్రం. ఇక్కడ మేము రాశి ఫలాలు మరియు వాటి ప్రాముఖ్యత గురించి వివరిస్తాము.</p>
-            <h2>జీవనశైలి & ఆహారపు అలవాట్లు</h2>
-            <p>ఆరోగ్యకరమైన జీవనశైలి మరియు మంచి ఆహారపు అలవాట్లు మన శరీరానికి, మనసుకు చాలా అవసరం. మానసిక శాంతి, ఆరోగ్యకరమైన ఆహార నియమాలు మరియు సరళమైన యోగా చిట్కాల గురించి ఇక్కడ సమాచారం ఉంటుంది.</p>
+<body class="bg-gray-100 p-6">
+
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
+        <h1 class="text-4xl font-bold text-center text-teal-600 mb-6">ఆధ్యాత్మిక మార్గదర్శి</h1>
+
+        <p class="text-lg text-gray-700 text-center mb-10">
+            జీవితంలో మెరుగైన, సంతోషకరమైన మార్గాన్ని అన్వేషించడానికి ఇది ఒక వేదిక. ఆధ్యాత్మికత, జ్యోతిష్యం, జీవనశైలి మరియు మరిన్ని కొత్త విషయాలను ఇక్కడ తెలుసుకోవచ్చు.
+        </p>
+
+        <!-- Existing content sections -->
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-teal-500 mb-4">జ్యోతిష్యం</h2>
+            <p class="text-gray-600">
+                జ్యోతిష్యం అనేది ఖగోళ వస్తువుల స్థానాలను బట్టి మానవ జీవితంపై వాటి ప్రభావాలను అధ్యయనం చేసే ఒక పురాతన శాస్త్రం. ఇక్కడ మేము రాశి ఫలాలు మరియు వాటి ప్రాముఖ్యత గురించి వివరిస్తాము.
+            </p>
+        </div>
+
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-teal-500 mb-4">జీవనశైలి & ఆహారపు అలవాట్లు</h2>
+            <p class="text-gray-600">
+                ఆరోగ్యకరమైన జీవనశైలి మరియు మంచి ఆహారపు అలవాట్లు మన శరీరానికి, మనసుకు చాలా అవసరం. మానసిక శాంతి, ఆరోగ్యకరమైన ఆహార నియమాలు మరియు సరళమైన యోగా చిట్కాల గురించి ఇక్కడ సమాచారం ఉంటుంది.
+            </p>
+        </div>
+
+        <!-- New section for the Q&A feature -->
+        <div id="ai-section" class="mt-10 p-6 bg-teal-50 rounded-lg shadow-inner">
+            <h2 class="text-3xl font-bold text-teal-600 mb-4">మీ ప్రశ్నలకు సమాధానాలు</h2>
+            <p class="text-gray-600 mb-4">
+                మీకు ఆధ్యాత్మికత లేదా జ్యోతిష్యం గురించి ఏ ప్రశ్న ఉన్నా ఇక్కడ అడగవచ్చు. మేము మీకు సహాయం చేస్తాము.
+            </p>
+            <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                <input id="user-question" type="text" placeholder="మీ ప్రశ్నను ఇక్కడ టైప్ చేయండి..." class="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <button id="ask-button" class="bg-teal-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-teal-700 transition duration-300">
+                    సమాధానం అడగండి
+                </button>
+            </div>
+            <div id="response-area" class="mt-6 p-4 bg-white border border-gray-300 rounded-lg hidden">
+                <p id="response-text" class="text-gray-800"></p>
+            </div>
+            <div id="loading-indicator" class="mt-4 text-center text-teal-600 hidden">
+                <svg class="animate-spin h-8 w-8 text-teal-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="mt-2">సమాధానం వస్తోంది...</p>
+            </div>
         </div>
     </div>
+
+    <script>
+        const askButton = document.getElementById('ask-button');
+        const userQuestion = document.getElementById('user-question');
+        const responseArea = document.getElementById('response-area');
+        const responseText = document.getElementById('response-text');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        
+        async function getAiResponse() {
+            loadingIndicator.classList.remove('hidden');
+            responseArea.classList.add('hidden');
+            
+            try {
+                // We're now calling a local endpoint that GitHub Actions will use to serve the response
+                const response = await fetch('/answer.txt');
+                const answer = await response.text();
+                
+                if (answer) {
+                    responseText.textContent = answer;
+                } else {
+                    responseText.textContent = "సమాధానం కనుగొనడంలో లోపం సంభవించింది. దయచేసి మళ్ళీ ప్రయత్నించండి.";
+                }
+            } catch (error) {
+                console.error('Error fetching AI response:', error);
+                responseText.textContent = "సమాధానం కనుగొనడంలో లోపం సంభవించింది. దయచేసి మళ్ళీ ప్రయత్నించండి.";
+            } finally {
+                loadingIndicator.classList.add('hidden');
+                responseArea.classList.remove('hidden');
+            }
+        }
+
+        askButton.addEventListener('click', () => {
+            const question = userQuestion.value.trim();
+            if (question) {
+                getAiResponse();
+            }
+        });
+    </script>
+
 </body>
 </html>
