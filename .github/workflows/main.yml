@@ -1,41 +1,31 @@
-name: Ask Gemini Action
+  - name: Ask Gemini and Get Answer
+    id: gemini-api-call
+    env:
+      API_KEY: ${{ secrets.API_KEY }}
+      PROMPT: ${{ github.event.inputs.prompt }}
+    run: |
+      # This is a simple API call using curl.
+      RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}" \
+      -H 'Content-Type: application/json' \
+      -d "{\"contents\": [{\"parts\": [{\"text\": \"${PROMPT}\"}]}]}")
+      
+      # Parse the response to get the answer
+      ANSWER=$(echo "$RESPONSE" | grep -oP '(?<="text": ")[^"]*')
+      
+      # Output the answer
+      echo "answer=$ANSWER" >> $GITHUB_OUTPUT
 
-on:
-  workflow_dispatch:
-    inputs:
-      prompt:
-        description: 'The question to ask Gemini'
-        required: true
-        type: string
-
-jobs:
-  ask-gemini:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Ask Gemini and Get Answer
-        id: gemini-api-call
-        env:
-          API_KEY: ${{ secrets.API_KEY }}
-          PROMPT: ${{ github.event.inputs.prompt }}
-        run: |
-          # This is a simple API call using curl.
-          RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}" \
-          -H 'Content-Type: application/json' \
-          -d "{\"contents\": [{\"parts\": [{\"text\": \"${PROMPT}\"}]}]}")
-
-          # Parse the response to get the answer
-          ANSWER=$(echo "$RESPONSE" | grep -oP '(?<="text": ")[^"]*' | head -n 1)
-
-          # Output the answer
-          echo "answer=$ANSWER" >> $GITHUB_OUTPUT
-
-      - name: Store Answer for Website
-        run: |
-          # The answer is available as an output of the previous step.
-          # We can save it to a file or use it in other steps.
-          echo "${{ steps.gemini-api-call.outputs.answer }}" > answer.txt
-          echo "Answer saved to answer.txt"
+  - name: Store Answer for Website
+    run: |
+      # The answer is available as an output of the previous step.
+      # We can save it to a file or use it in other steps.
+      echo "${{ steps.gemini-api-call.outputs.answer }}" > answer.txt
+      echo "Answer saved to answer.txt"
+      
+  - name: Commit and push changes
+    run: |
+      git config user.name "github-actions[bot]"
+      git config user.email "github-actions[bot]@users.noreply.github.com"
+      git add answer.txt
+      git commit -m "Update answer.txt with new Gemini response"
+      git push
