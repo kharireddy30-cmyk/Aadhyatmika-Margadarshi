@@ -15,7 +15,29 @@
 </head>
 <body class="bg-gray-100 p-6">
 
-    <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
+    <!-- Login Page -->
+    <div id="login-container" class="min-h-screen flex items-center justify-center bg-gray-100 hidden">
+        <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
+            <h2 class="text-2xl font-bold text-center text-teal-600 mb-6">లాగిన్</h2>
+            <form id="login-form">
+                <div class="mb-4">
+                    <label for="username" class="block text-gray-700 font-bold mb-2">యూజర్‌నేమ్:</label>
+                    <input type="text" id="username" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+                </div>
+                <div class="mb-6">
+                    <label for="password" class="block text-gray-700 font-bold mb-2">పాస్‌వర్డ్:</label>
+                    <input type="password" id="password" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+                </div>
+                <button type="submit" class="w-full bg-teal-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-teal-700 transition duration-300">
+                    లాగిన్ చేయండి
+                </button>
+                <p id="error-message" class="text-red-500 text-center mt-4 hidden">యూజర్‌నేమ్ లేదా పాస్‌వర్డ్ తప్పు.</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Website Content -->
+    <div id="website-content" class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md hidden">
         <h1 class="text-4xl font-bold text-center text-teal-600 mb-6">ఆధ్యాత్మిక మార్గదర్శి</h1>
 
         <p class="text-lg text-gray-700 text-center mb-10">
@@ -63,40 +85,68 @@
     </div>
 
     <script>
-        const askButton = document.getElementById('ask-button');
-        const userQuestion = document.getElementById('user-question');
-        const responseArea = document.getElementById('response-area');
-        const responseText = document.getElementById('response-text');
-        const loadingIndicator = document.getElementById('loading-indicator');
-        
-        async function getAiResponse() {
-            loadingIndicator.classList.remove('hidden');
-            responseArea.classList.add('hidden');
-            
-            try {
-                // We're now calling a local endpoint that GitHub Actions will use to serve the response
-                const response = await fetch('/answer.txt');
-                const answer = await response.text();
-                
-                if (answer) {
-                    responseText.textContent = answer;
-                } else {
-                    responseText.textContent = "సమాధానం కనుగొనడంలో లోపం సంభవించింది. దయచేసి మళ్ళీ ప్రయత్నించండి.";
-                }
-            } catch (error) {
-                console.error('Error fetching AI response:', error);
-                responseText.textContent = "సమాధానం కనుగొనడంలో లోపం సంభవించింది. దయచేసి మళ్ళీ ప్రయత్నించండి.";
-            } finally {
-                loadingIndicator.classList.add('hidden');
-                responseArea.classList.remove('hidden');
-            }
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginContainer = document.getElementById('login-container');
+            const websiteContent = document.getElementById('website-content');
+            const loginForm = document.getElementById('login-form');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const errorMessage = document.getElementById('error-message');
 
-        askButton.addEventListener('click', () => {
-            const question = userQuestion.value.trim();
-            if (question) {
-                getAiResponse();
+            const askButton = document.getElementById('ask-button');
+            const userQuestion = document.getElementById('user-question');
+            const responseArea = document.getElementById('response-area');
+            const responseText = document.getElementById('response-text');
+            const loadingIndicator = document.getElementById('loading-indicator');
+
+            // యూజర్‌నేమ్ మరియు పాస్‌వర్డ్‌ను ఇక్కడ మార్చవచ్చు
+            const correctUsername = 'Aum'; 
+            const correctPassword = '2024';
+
+            // మొదట లాగిన్ పేజీని చూపించండి
+            loginContainer.classList.remove('hidden');
+
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value.trim();
+
+                if (username === correctUsername && password === correctPassword) {
+                    loginContainer.classList.add('hidden');
+                    websiteContent.classList.remove('hidden');
+                } else {
+                    errorMessage.classList.remove('hidden');
+                }
+            });
+
+            async function getAiResponse() {
+                loadingIndicator.classList.remove('hidden');
+                responseArea.classList.add('hidden');
+                
+                try {
+                    const response = await fetch('/answer.txt');
+                    const answer = await response.text();
+                    
+                    if (answer) {
+                        responseText.textContent = answer;
+                    } else {
+                        responseText.textContent = "సమాధానం కనుగొనడంలో లోపం సంభవించింది. దయచేసి మళ్ళీ ప్రయత్నించండి.";
+                    }
+                } catch (error) {
+                    console.error('Error fetching AI response:', error);
+                    responseText.textContent = "సమాధానం కనుగొనడంలో లోపం సంభవించింది. దయచేసి మళ్ళీ ప్రయత్నించండి.";
+                } finally {
+                    loadingIndicator.classList.add('hidden');
+                    responseArea.classList.remove('hidden');
+                }
             }
+
+            askButton.addEventListener('click', () => {
+                const question = userQuestion.value.trim();
+                if (question) {
+                    getAiResponse();
+                }
+            });
         });
     </script>
 
