@@ -180,48 +180,62 @@
 
             answerBox.textContent = 'సమాధానం కోసం వేచి ఉండండి...';
 
-            const response = await fetch(`https://api.github.com/repos/khari-reddy/Aadhyatmika-Margadarshi/dispatches`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/vnd.github.v3+json',
-                    'Authorization': `token {{ secrets.GITHUB_TOKEN }}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    'event_type': 'ask-gemini-event',
-                    'client_payload': {
-                        'prompt': question
-                    }
-                })
-            });
+            // GitHub token must be set up in your repository secrets as `GITHUB_TOKEN`
+            const githubToken = '{{ secrets.GITHUB_TOKEN }}';
+            const repo = 'khari-reddy/Aadhyatmika-Margadarshi';
+            const eventType = 'ask-gemini-event';
+            const url = `https://api.github.com/repos/${repo}/dispatches`;
 
-            if (response.status === 204) {
-                // If the dispatch is successful, we wait for the answer.txt file
-                let answerFound = false;
-                let attempts = 0;
-                const maxAttempts = 20; // Try for up to 20 seconds
-                const delay = 1000; // 1 second
-
-                while (!answerFound && attempts < maxAttempts) {
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    try {
-                        const answerResponse = await fetch('answer.txt');
-                        if (answerResponse.ok) {
-                            const answer = await answerResponse.text();
-                            answerBox.textContent = answer;
-                            answerFound = true;
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Authorization': `token ${githubToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        event_type: eventType,
+                        client_payload: {
+                            prompt: question
                         }
-                    } catch (error) {
-                        console.error("Error fetching answer:", error);
-                    }
-                    attempts++;
-                }
+                    })
+                });
 
-                if (!answerFound) {
-                    answerBox.textContent = 'సమాధానం పొందడంలో సమస్య వచ్చింది. దయచేసి మళ్లీ ప్రయత్నించండి.';
+                if (response.status === 204) {
+                    answerBox.textContent = 'మీ ప్రశ్న పంపబడింది. సమాధానం కోసం వేచి ఉండండి...';
+                    
+                    let answerFound = false;
+                    let attempts = 0;
+                    const maxAttempts = 20; 
+                    const delay = 1000; 
+
+                    while (!answerFound && attempts < maxAttempts) {
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        try {
+                            const answerResponse = await fetch('answer.txt');
+                            if (answerResponse.ok) {
+                                const answer = await answerResponse.text();
+                                answerBox.textContent = answer;
+                                answerFound = true;
+                            }
+                        } catch (error) {
+                            console.error("Error fetching answer:", error);
+                        }
+                        attempts++;
+                    }
+
+                    if (!answerFound) {
+                        answerBox.textContent = 'సమాధానం పొందడంలో సమస్య వచ్చింది. దయచేసి మళ్లీ ప్రయత్నించండి.';
+                    }
+
+                } else {
+                    const errorText = await response.text();
+                    answerBox.textContent = `ప్రశ్న పంపడంలో సమస్య వచ్చింది. దయచేసి మళ్లీ ప్రయత్నించండి. Error: ${errorText}`;
                 }
-            } else {
-                answerBox.textContent = 'ప్రశ్న పంపడంలో సమస్య వచ్చింది. దయచేసి మళ్లీ ప్రయత్నించండి.';
+            } catch (error) {
+                answerBox.textContent = `ప్రశ్న పంపడంలో సమస్య వచ్చింది. దయచేసి మళ్లీ ప్రయత్నించండి.`;
+                console.error("Fetch error:", error);
             }
         }
     </script>
