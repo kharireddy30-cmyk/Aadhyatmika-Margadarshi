@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ఆధ్యాత్మిక మార్గదర్శి</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;700&display=swap');
 
@@ -143,7 +144,7 @@
         const responseBox = document.getElementById('response-box');
         const errorBox = document.getElementById('error-box');
 
-        submitButton.addEventListener('click', async () => {
+        async function submitQuestionAndCheckStatus() {
             const userQuery = questionInput.value.trim();
             if (userQuery === '') {
                 errorBox.textContent = 'దయచేసి ఒక ప్రశ్నను నమోదు చేయండి.';
@@ -155,43 +156,40 @@
             errorBox.style.display = 'none';
 
             try {
-                const systemPrompt = "Brahma Kumaris బోధనల ప్రకారం మాత్రమే ఆధ్యాత్మిక ప్రశ్నలకు సమాధానం ఇవ్వండి. ఇతర విషయాల గురించి అడిగితే, మీరు బ్రహ్మకుమారిస్ బోధనలకు సంబంధించిన సమాధానాలను మాత్రమే ఇవ్వగలరని సున్నితంగా తెలియజేయండి. మీ సమాధానం సంక్షిప్తంగా, కానీ లోతుగా ఉండేలా చూసుకోండి.";
-                
-                const payload = {
-                    contents: [{ parts: [{ text: userQuery }] }],
-                    tools: [{ "google_search": {} }],
-                    systemInstruction: {
-                        parts: [{ text: systemPrompt }]
-                    }
-                };
-
-                const apiKey = ""; 
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                // Step 1: Commit the user's prompt to prompt.txt
+                const response = await fetch('https://api.github.com/repos/kharireddy30-cmyk/Aadhyatmika-Margadarshi/contents/prompt.txt', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${{ secrets.GITHUB_TOKEN }}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: `Update prompt with new question`,
+                        content: btoa(userQuery),
+                        sha: (await fetch('https://api.github.com/repos/kharireddy30-cmyk/Aadhyatmika-Margadarshi/contents/prompt.txt')).sha
+                    })
                 });
 
                 if (!response.ok) {
-                    throw new Error(`API call failed with status: ${response.status}`);
+                    throw new Error(`Failed to commit prompt. Error: ${response.statusText}`);
                 }
 
-                const result = await response.json();
-                const candidate = result.candidates?.[0];
-
-                if (candidate && candidate.content?.parts?.[0]?.text) {
-                    const text = candidate.content.parts[0].text;
-                    responseBox.textContent = text;
-                } else {
-                    responseBox.textContent = "సమాధానం పొందడంలో సమస్య వచ్చింది. దయచేసి మళ్ళీ ప్రయత్నించండి.";
-                }
+                // Step 2: Poll for the new response from response.txt
+                const checkInterval = setInterval(async () => {
+                    const response = await fetch('https://kharireddy30-cmyk.github.io/Aadhyatmika-Margadarshi/response.txt');
+                    if (response.ok) {
+                        const newAnswer = await response.text();
+                        responseBox.textContent = newAnswer;
+                        clearInterval(checkInterval);
+                    }
+                }, 5000); // Check every 5 seconds
             } catch (e) {
                 errorBox.textContent = `ప్రశ్న పంపడంలో సమస్య వచ్చింది. దయచేసి మళ్ళీ ప్రయత్నించండి. Error: ${e.message}`;
                 errorBox.style.display = 'block';
             }
-        });
+        }
+
+        submitButton.addEventListener('click', submitQuestionAndCheckStatus);
     </script>
 </body>
 </html>
