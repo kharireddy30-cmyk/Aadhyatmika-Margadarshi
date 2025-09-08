@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="te">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ఆధ్యాత్మిక మార్గదర్శి</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;700&display=swap');
+
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Noto Sans Telugu', sans-serif;
             background-color: #f4f4f4;
             color: #333;
             margin: 0;
@@ -26,6 +29,14 @@
 
         h1 {
             color: #4CAF50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #4CAF50;
+            font-size: 1.8rem;
+            margin-top: 20px;
         }
 
         p {
@@ -37,255 +48,150 @@
             text-align: left;
         }
 
-        .login-section {
+        .question-box {
             padding: 20px;
-            margin-bottom: 20px;
-            background-color: #f9f9f9;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
         }
 
-        .login-section input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .login-section button {
-            width: 100%;
-            padding: 12px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .login-section button:hover {
-            background-color: #45a049;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .gemini-container {
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             margin-top: 20px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
         }
-        
-        #question-box {
+
+        #question-input {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 10px;
         }
 
         #submit-button {
-            width: 100%;
-            padding: 12px;
             background-color: #4CAF50;
             color: white;
+            padding: 12px 24px;
             border: none;
-            border-radius: 4px;
-            font-size: 16px;
+            border-radius: 5px;
+            font-size: 1rem;
             cursor: pointer;
-            margin-top: 10px;
+            transition: background-color 0.3s;
         }
 
         #submit-button:hover {
             background-color: #45a049;
         }
 
-        #answer-box {
+        #response-box {
             margin-top: 20px;
             padding: 15px;
             background-color: #e9e9e9;
-            border-radius: 4px;
-            min-height: 50px;
+            border-radius: 8px;
             text-align: left;
-            white-space: pre-wrap;
         }
 
-        .loading-dots {
+        .error {
+            background-color: #ffcccc;
+            color: #cc0000;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
             text-align: center;
-        }
-
-        .dot-pulse {
-            position: relative;
-            left: -9999px;
-            width: 10px;
-            height: 10px;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: #4CAF50;
-            box-shadow: 9999px 0 0 -5px #4CAF50;
-            animation: dotPulse 1.5s infinite linear;
-            animation-delay: .25s;
-        }
-
-        .dot-pulse::before, .dot-pulse::after {
-            content: '';
-            display: inline-block;
-            position: absolute;
-            top: 0;
-            width: 10px;
-            height: 10px;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: #4CAF50;
-        }
-
-        .dot-pulse::before {
-            box-shadow: 9984px 0 0 -5px #4CAF50;
-            animation: dotPulseBefore 1.5s infinite linear;
-            animation-delay: 0s;
-        }
-
-        .dot-pulse::after {
-            box-shadow: 10014px 0 0 -5px #4CAF50;
-            animation: dotPulseAfter 1.5s infinite linear;
-            animation-delay: .5s;
-        }
-
-        @keyframes dotPulseBefore {
-            0% {
-                box-shadow: 9984px 0 0 -5px #4CAF50;
-            }
-            30% {
-                box-shadow: 9984px 0 0 2px #4CAF50;
-            }
-            60%, 100% {
-                box-shadow: 9984px 0 0 -5px #4CAF50;
-            }
-        }
-
-        @keyframes dotPulse {
-            0% {
-                box-shadow: 9999px 0 0 -5px #4CAF50;
-            }
-            30% {
-                box-shadow: 9999px 0 0 2px #4CAF50;
-            }
-            60%, 100% {
-                box-shadow: 9999px 0 0 -5px #4CAF50;
-            }
-        }
-
-        @keyframes dotPulseAfter {
-            0% {
-                box-shadow: 10014px 0 0 -5px #4CAF50;
-            }
-            30% {
-                box-shadow: 10014px 0 0 2px #4CAF50;
-            }
-            60%, 100% {
-                box-shadow: 10014px 0 0 -5px #4CAF50;
-            }
         }
     </style>
 </head>
+
 <body>
-
-<div class="container">
-    <div class="login-section">
-        <h1>లాగిన్</h1>
-        <input type="text" id="username" placeholder="యూజర్‌నేమ్">
-        <input type="password" id="password" placeholder="పాస్‌వర్డ్">
-        <button id="login-button">లాగిన్</button>
-    </div>
-
-    <div id="main-content" class="hidden">
+    <div class="container">
         <h1>ఆధ్యాత్మిక మార్గదర్శి</h1>
-        <p>జీవితంలో మెరుగైన, సంతోషకరమైన మార్గాన్ని అన్వేషించడానికి ఇది ఒక వేదిక. ఆధ్యాత్మికత, జ్యోతిష్యం, జీవనశైలి మరియు మరిన్ని కొత్త విషయాలను ఇక్కడ తెలుసుకోవచ్చు.</p>
-        
+        <p>
+            జీవితంలో మెరుగైన, సంతోషకరమైన మార్గాన్ని అన్వేషించడానికి ఇది ఒక వేదిక. ఆధ్యాత్మికత, జ్యోతిష్యం, జీవనశైలి మరియు మరెన్నో కొత్త విషయాలను ఇక్కడ తెలుసుకోవచ్చు.
+        </p>
         <div class="content">
             <h2>జ్యోతిష్యం</h2>
-            <p>జ్యోతిష్యం అనేది భౌగోళిక వస్తువుల స్థానాలను బట్టి మానవ జీవితంపై వాటి ప్రభావాలను అధ్యయనం చేసే ఒక పురాతన శాస్త్రం. ఇక్కడ మేము రాశి ఫలాలు మరియు వాటి ప్రాముఖ్యత గురించి వివరిస్తాము.</p>
-            
+            <p>
+                జ్యోతిష్యం అనేది వివిధ గ్రహాల స్థానాలను బట్టి మానవ జీవితంపై వాటి ప్రభావాలను అధ్యయనం చేసే ఒక పురాతన శాస్త్రం. ఇక్కడ మేము రాశి ఫలాలు మరియు వాటి ప్రాముఖ్యత గురించి వివరిస్తాము.
+            </p>
             <h2>జీవనశైలి & ఆహారపు అలవాట్లు</h2>
-            <p>ఆరోగ్యకరమైన జీవనశైలి మరియు మంచి ఆహారపు అలవాట్లు మన శరీరానికి, మనసుకు చాలా అవసరం. మానసిక శాంతి, ఆరోగ్యకరమైన ఆహార నియమాలు మరియు సరళమైన యోగా చిట్కాల గురించి ఇక్కడ సమాచారం ఉంటుంది.</p>
+            <p>
+                ఆరోగ్యకరమైన జీవనశైలి మరియు మంచి ఆహారపు అలవాట్లు మన శరీరానికి, మనసుకు చాలా అవసరం. మానసిక శాంతి, ఆరోగ్యకరమైన ఆహార నియమాలు మరియు సరైన యోగా చిట్కాల గురించి ఇక్కడ సమాచారం ఉంటుంది.
+            </p>
+        </div>
 
-            <div class="gemini-container">
-                <h2>మీ ప్రశ్నలకు సమాధానాలు</h2>
-                <p>మీకు ఆధ్యాత్మికత లేదా జ్యోతిష్యం గురించి ఏమైనా ప్రశ్నలు ఉంటే ఇక్కడ అడగవచ్చు. మేము మీకు సహాయం చేస్తాము.</p>
-                <input type="text" id="question-box" placeholder="మీ ప్రశ్నలు">
+        <div class="question-box">
+            <h2>మీ ప్రశ్నలకు సమాధానాలు</h2>
+            <p>
+                మీకు ఆధ్యాత్మికత లేదా జ్యోతిష్యం గురించి ఏమైనా ప్రశ్నలు ఉంటే ఇక్కడ అడగవచ్చు. మేము మీకు సహాయం చేస్తాము.
+            </p>
+            <div class="input-container">
+                <input type="text" id="question-input" placeholder="మీరు ఏదైనా అడగండి...">
                 <button id="submit-button">సమాధానం పొందండి</button>
-                <div id="answer-box">సమాధానం ఇక్కడ కనిపిస్తుంది...</div>
             </div>
+            <div id="response-box">సమాధానం ఇక్కడ కనిపిస్తుంది...</div>
+            <div id="error-box" class="error" style="display:none;"></div>
         </div>
     </div>
-</div>
 
-<script>
-    const loginButton = document.getElementById('login-button');
-    const mainContent = document.getElementById('main-content');
-    const questionBox = document.getElementById('question-box');
-    const submitButton = document.getElementById('submit-button');
-    const answerBox = document.getElementById('answer-box');
+    <script>
+        const questionInput = document.getElementById('question-input');
+        const submitButton = document.getElementById('submit-button');
+        const responseBox = document.getElementById('response-box');
+        const errorBox = document.getElementById('error-box');
 
-    loginButton.addEventListener('click', () => {
-        // Here you would implement your actual login logic.
-        // For now, we'll just show the content on button click.
-        mainContent.classList.remove('hidden');
-        document.querySelector('.login-section').classList.add('hidden');
-    });
+        submitButton.addEventListener('click', async () => {
+            const userQuery = questionInput.value.trim();
+            if (userQuery === '') {
+                errorBox.textContent = 'దయచేసి ఒక ప్రశ్నను నమోదు చేయండి.';
+                errorBox.style.display = 'block';
+                return;
+            }
 
-    submitButton.addEventListener('click', async () => {
-        const userQuery = questionBox.value;
-        if (userQuery.trim() === '') {
-            return;
-        }
+            responseBox.textContent = 'సమాధానం కోసం చూస్తున్నాము...';
+            errorBox.style.display = 'none';
 
-        answerBox.innerHTML = '<div class="loading-dots"><div class="dot-pulse"></div></div>';
-        
-        try {
-            const systemPrompt = "Brahma Kumaris బోధనల ప్రకారం మాత్రమే ఆధ్యాత్మిక ప్రశ్నలకు సమాధానం ఇవ్వండి. ఇతర విషయాల గురించి అడిగితే, మీరు బ్రహ్మకుమారిస్ బోధనలకు సంబంధించిన సమాధానాలను మాత్రమే ఇవ్వగలరని సున్నితంగా తెలియజేయండి. మీ సమాధానం సంక్షిప్తంగా, కానీ లోతుగా ఉండేలా చూసుకోండి.";
-            
-            const payload = {
-                contents: [{ parts: [{ text: userQuery }] }],
-                tools: [{ "google_search": {} }],
-                systemInstruction: {
-                    parts: [{ text: systemPrompt }]
+            try {
+                const systemPrompt = "Brahma Kumaris బోధనల ప్రకారం మాత్రమే ఆధ్యాత్మిక ప్రశ్నలకు సమాధానం ఇవ్వండి. ఇతర విషయాల గురించి అడిగితే, మీరు బ్రహ్మకుమారిస్ బోధనలకు సంబంధించిన సమాధానాలను మాత్రమే ఇవ్వగలరని సున్నితంగా తెలియజేయండి. మీ సమాధానం సంక్షిప్తంగా, కానీ లోతుగా ఉండేలా చూసుకోండి.";
+                
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    tools: [{ "google_search": {} }],
+                    systemInstruction: {
+                        parts: [{ text: systemPrompt }]
+                    }
+                };
+
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API call failed with status: ${response.status}`);
                 }
-            };
 
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
 
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                throw new Error(`API call failed with status: ${response.status}`);
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const text = candidate.content.parts[0].text;
+                    responseBox.textContent = text;
+                } else {
+                    responseBox.textContent = "సమాధానం పొందడంలో సమస్య వచ్చింది. దయచేసి మళ్ళీ ప్రయత్నించండి.";
+                }
+            } catch (e) {
+                errorBox.textContent = `ప్రశ్న పంపడంలో సమస్య వచ్చింది. దయచేసి మళ్ళీ ప్రయత్నించండి. Error: ${e.message}`;
+                errorBox.style.display = 'block';
             }
-
-            const result = await response.json();
-            const candidate = result.candidates?.[0];
-
-            if (candidate && candidate.content?.parts?.[0]?.text) {
-                const text = candidate.content.parts[0].text;
-                answerBox.innerHTML = text;
-            } else {
-                answerBox.textContent = "సమాధానం పొందడంలో సమస్య వచ్చింది. దయచేసి మళ్లీ ప్రయత్నించండి.";
-            }
-        } catch (error) {
-            console.error('Error fetching data from Gemini API:', error);
-            answerBox.textContent = "సమాధానం పొందడంలో సమస్య వచ్చింది. దయచేసి మళ్లీ ప్రయత్నించండి.";
-        }
-    });
-
-</script>
-
+        });
+    </script>
 </body>
 </html>
