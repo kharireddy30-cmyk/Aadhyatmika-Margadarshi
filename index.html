@@ -136,12 +136,48 @@
                 transform: rotate(360deg);
             }
         }
+        
+        .symbol-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .symbol-container img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .pop-up {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+            font-size: 1.2rem;
+            display: none;
+        }
     </style>
 </head>
 
 <body>
+    <div class="pop-up" id="popup"></div>
     <div class="container">
         <h1>ఆధ్యాత్మిక మార్గదర్శి</h1>
+        <div class="symbol-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Om_symbol.svg/1200px-Om_symbol.svg.png" alt="ఓం">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Star_and_Crescent_in_green.svg/1200px-Star_and_Crescent_in_green.svg.png" alt="స్టార్ అండ్ క్రెసెంట్">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Christian_cross.svg/1200px-Christian_cross.svg.png" alt="క్రిస్టియన్ క్రాస్">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Khanda_Sikh_symbol.svg/1200px-Khanda_Sikh_symbol.svg.png" alt="ఖండ">
+        </div>
         <p>
             జీవితంలో మెరుగైన, సంతోషకరమైన మార్గాన్ని అన్వేషించడానికి ఇది ఒక వేదిక. ఆధ్యాత్మికత, జ్యోతిష్యం, జీవనశైలి మరియు మరెన్నో కొత్త విషయాలను ఇక్కడ తెలుసుకోవచ్చు.
         </p>
@@ -188,7 +224,7 @@
     <script>
         // Use your API key here
         const API_KEY = "AIzaSyC6srPwR2HeiDJlyCfhye5H2JI101q0El8";
-
+        
         const loginSection = document.getElementById('login-section');
         const mainContent = document.getElementById('main-content');
         const usernameInput = document.getElementById('username');
@@ -200,10 +236,18 @@
         const responseBox = document.getElementById('response-box');
         const loadingSpinner = document.getElementById('loading-spinner');
         const responseErrorBox = document.getElementById('response-error-box');
-
-        // Simple login credentials
+        const popup = document.getElementById('popup');
+        
         const validUsername = "baba";
         const validPassword = "1936";
+
+        const allowedTopics = [
+            "ఆధ్యాత్మిక", "జ్యోతిష్య", "ఆయుర్వేద", "ఆయుర్వేదం", 
+            "సుప్రమైన", "నాచురల్", "ఆహార", "ఆహారపు", "ఆహారం", 
+            "నేను ఎవరు", "నేను", "స్వమానం", "స్మృతి", "విస్మృతి", 
+            "బాబా", "పరమాత్మ", "శక్తి", "శాంతి", "జ్ఞానం", 
+            "యెహోవా", "అల్లాహ్"
+        ];
 
         loginButton.addEventListener('click', () => {
             const enteredUsername = usernameInput.value;
@@ -218,6 +262,14 @@
             }
         });
 
+        function showPopup(message) {
+            popup.textContent = message;
+            popup.style.display = 'block';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 3000); // 3 seconds
+        }
+
         submitButton.addEventListener('click', async () => {
             const userQuery = questionInput.value.trim();
             if (userQuery === '') {
@@ -226,18 +278,29 @@
                 return;
             }
 
-            responseBox.textContent = ''; // Clear previous response
+            const isTopicAllowed = allowedTopics.some(topic => userQuery.includes(topic));
+            if (!isTopicAllowed) {
+                responseErrorBox.textContent = 'దయచేసి ఆధ్యాత్మికం, జ్యోతిష్యం, ఆయుర్వేదం లేదా ఆహారానికి సంబంధించిన ప్రశ్నలు మాత్రమే అడగండి.';
+                responseErrorBox.style.display = 'block';
+                return;
+            }
+
+            responseBox.textContent = '';
             responseErrorBox.style.display = 'none';
             loadingSpinner.style.display = 'block';
+            showPopup("బాబా సమాధానం కోసం ఎదురు చూస్తున్నారు...");
 
             try {
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
                 
+                const systemPrompt = `మీరు బ్రహ్మకుమారీస్ ఆధ్యాత్మిక మార్గాన్ని సూక్ష్మంగా వివరిస్తున్న ఆధ్యాత్మిక మార్గదర్శిగా వ్యవహరించండి. మీరు బ్రహ్మకుమారీస్ యొక్క దివ్య జ్ఞానాన్ని, బాబా చెప్పినట్లుగా వివరించాలి. మీరు చెప్పే మాటలు ప్రేమతో నిండి, లోతైనవిగా, సున్నితమైనవిగా ఉండాలి. ఆధ్యాత్మికం, జ్యోతిష్యం, ఆయుర్వేదం, మరియు సహజ ఆహారం గురించి మాత్రమే సమాధానాలు ఇవ్వాలి.`.trim();
+
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         contents: [{ parts: [{ text: userQuery }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] }
                     })
                 });
 
