@@ -1,37 +1,35 @@
-  - name: Ask Gemini and Get Answer
-    id: gemini-api-call
-    env:
-      API_KEY: ${{ secrets.API_KEY }}
-      PROMPT: ${{ github.event.inputs.prompt }}
-    run: |
-      RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}" \
-      -H 'Content-Type: application/json' \
-      -d "{\"contents\": [{\"parts\": [{\"text\": \"${PROMPT}\"}]}]}")
-      
-      # Use grep to extract the text, handling escaped quotes
-      ANSWER=$(echo "$RESPONSE" | grep -oP '(?<="text": ")[^"]*' | head -n 1)
-      
-      # If grep fails, try a different parsing method
-      if [ -z "$ANSWER" ]; then
-          ANSWER=$(echo "$RESPONSE" | python3 -c "import sys, json; print(json.load(sys.stdin)['candidates'][0]['content']['parts'][0]['text'])")
-      fi
-      
-      # Escape quotes and backslashes for bash output
-      ESCAPED_ANSWER=$(echo "$ANSWER" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
-      
-      # Output the answer
-      echo "answer=\"$ESCAPED_ANSWER\"" >> $GITHUB_OUTPUT
+  - name: Read prompt from file
+    id: read_prompt
+    run: echo "PROMPT=$(cat prompt.txt)" >> $GITHUB_ENV
 
-  - name: Store Answer for Website
+  - name: Call Gemini API
+    id: call_api
     run: |
-      ANSWER="${{ steps.gemini-api-call.outputs.answer }}"
-      echo "$ANSWER" > answer.txt
-      echo "Answer saved to answer.txt"
+      PROMPT_TEXT=$(echo "${{ env.PROMPT }}" | sed 's/"/\\"/g')
       
-  - name: Commit and push changes
+      RESPONSE_CONTENT=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${{ secrets.API_KEY }}" \
+        -H 'Content-Type: application/json' \
+        -d "{
+          \"contents\": [
+            {
+              \"parts\": [
+                {
+                  \"text\": \"$PROMPT_TEXT\"
+                }
+              ]
+            }
+          ]
+        }" | jq -r '.candidates[0].content.parts[0].text')
+        
+      echo "response_text<<EOF" >> $GITHUB_ENV
+      echo "$RESPONSE_CONTENT" >> $GITHUB_ENV
+      echo "EOF" >> $GITHUB_ENV
+
+  - name: Write response to file
     run: |
-      git config user.name "github-actions[bot]"
-      git config user.email "github-actions[bot]@users.noreply.github.com"
-      git add answer.txt
-      git commit -m "Update answer.txt with new Gemini response"
+      echo "${{ env.response_text }}" > response.txt
+      git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      git config --global user.name "github-actions[bot]"
+      git add response.txt
+      git commit -m "Updated response.txt"
       git push
