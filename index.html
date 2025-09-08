@@ -49,6 +49,14 @@
             text-align: left;
         }
 
+        .login-box {
+            padding: 20px;
+            background-color: #f0fdf4;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
         .question-box {
             padding: 20px;
             border-radius: 8px;
@@ -64,6 +72,8 @@
             margin-top: 20px;
         }
 
+        #username,
+        #password,
         #question-input {
             width: 100%;
             padding: 10px;
@@ -73,6 +83,7 @@
             margin-bottom: 10px;
         }
 
+        #login-button,
         #submit-button {
             background-color: #4CAF50;
             color: white;
@@ -84,6 +95,7 @@
             transition: background-color 0.3s;
         }
 
+        #login-button:hover,
         #submit-button:hover {
             background-color: #45a049;
         }
@@ -105,13 +117,24 @@
             text-align: center;
         }
 
-        .instructions {
-            background-color: #e6f7ff;
-            border-left: 5px solid #007bff;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 5px;
-            text-align: left;
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #4CAF50;
+            animation: spin 1s ease infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
@@ -122,81 +145,115 @@
         <p>
             జీవితంలో మెరుగైన, సంతోషకరమైన మార్గాన్ని అన్వేషించడానికి ఇది ఒక వేదిక. ఆధ్యాత్మికత, జ్యోతిష్యం, జీవనశైలి మరియు మరెన్నో కొత్త విషయాలను ఇక్కడ తెలుసుకోవచ్చు.
         </p>
-        <div class="content">
-            <h2>జ్యోతిష్యం</h2>
-            <p>
-                జ్యోతిష్యం అనేది వివిధ గ్రహాల స్థానాలను బట్టి మానవ జీవితంపై వాటి ప్రభావాలను అధ్యయనం చేసే ఒక పురాతన శాస్త్రం. ఇక్కడ మేము రాశి ఫలాలు మరియు వాటి ప్రాముఖ్యత గురించి వివరిస్తాము.
-            </p>
-            <h2>జీవనశైలి & ఆహారపు అలవాట్లు</h2>
-            <p>
-                ఆరోగ్యకరమైన జీవనశైలి మరియు మంచి ఆహారపు అలవాట్లు మన శరీరానికి, మనసుకు చాలా అవసరం. మానసిక శాంతి, ఆరోగ్యకరమైన ఆహార నియమాలు మరియు సరైన యోగా చిట్కాల గురించి ఇక్కడ సమాచారం ఉంటుంది.
-            </p>
+
+        <div id="login-section" class="login-box">
+            <h2>లాగిన్</h2>
+            <div class="input-container">
+                <input type="text" id="username" placeholder="యూజర్‌నేమ్">
+                <input type="password" id="password" placeholder="పాస్‌వర్డ్">
+                <button id="login-button">లాగిన్</button>
+            </div>
+            <div id="login-error-box" class="error" style="display:none;"></div>
         </div>
 
-        <div class="question-box">
-            <h2>మీ ప్రశ్నలకు సమాధానాలు</h2>
-            <p>
-                మీకు ఆధ్యాత్మికత లేదా జ్యోతిష్యం గురించి ఏమైనా ప్రశ్నలు ఉంటే ఇక్కడ అడగవచ్చు. మేము మీకు సహాయం చేస్తాము.
-            </p>
-            <div class="input-container">
-                <input type="text" id="question-input" placeholder="మీరు ఏదైనా అడగండి...">
-                <button id="submit-button">సమాధానం పొందండి</button>
+        <div id="main-content" style="display:none;">
+            <div class="content">
+                <h2>జ్యోతిష్యం</h2>
+                <p>
+                    జ్యోతిష్యం అనేది వివిధ గ్రహాల స్థానాలను బట్టి మానవ జీవితంపై వాటి ప్రభావాలను అధ్యయనం చేసే ఒక పురాతన శాస్త్రం. ఇక్కడ మేము రాశి ఫలాలు మరియు వాటి ప్రాముఖ్యత గురించి వివరిస్తాము.
+                </p>
+                <h2>జీవనశైలి & ఆహారపు అలవాట్లు</h2>
+                <p>
+                    ఆరోగ్యకరమైన జీవనశైలి మరియు మంచి ఆహారపు అలవాట్లు మన శరీరానికి, మనసుకు చాలా అవసరం. మానసిక శాంతి, ఆరోగ్యకరమైన ఆహార నియమాలు మరియు సరైన యోగా చిట్కాల గురించి ఇక్కడ సమాచారం ఉంటుంది.
+                </p>
             </div>
-            <div class="instructions" id="instructions-box" style="display:none;">
-                <p><strong>తదుపరి దశలు:</strong></p>
-                <p>1. మీ ప్రశ్న ఇప్పుడు క్లిప్‌బోర్డ్‌కు కాపీ చేయబడింది.</p>
-                <p>2. మీ GitHub రిపోజిటరీకి వెళ్లి, **<code>prompt.txt</code>** అనే ఫైల్‌ను తెరవండి.</p>
-                <p>3. ఫైల్‌లోని కంటెంట్‌ను తొలగించి, మీ ప్రశ్నను అక్కడ పేస్ట్ చేయండి.</p>
-                <p>4. మార్పులను **Commit** చేయండి. ఇది GitHub Actionను ప్రారంభిస్తుంది.</p>
-                <p>5. కొన్ని సెకన్ల తర్వాత, మీ వెబ్‌సైట్ పేజీని మళ్లీ లోడ్ చేయండి.</p>
+
+            <div class="question-box">
+                <h2>మీ ప్రశ్నలకు సమాధానాలు</h2>
+                <p>
+                    మీకు ఆధ్యాత్మికత లేదా జ్యోతిష్యం గురించి ఏమైనా ప్రశ్నలు ఉంటే ఇక్కడ అడగవచ్చు. మేము మీకు సహాయం చేస్తాము.
+                </p>
+                <div class="input-container">
+                    <input type="text" id="question-input" placeholder="మీరు ఏదైనా అడగండి...">
+                    <button id="submit-button">సమాధానం పొందండి</button>
+                </div>
+                <div id="loading-spinner" class="loading-spinner" style="display: none;"></div>
+                <div id="response-box">సమాధానం ఇక్కడ కనిపిస్తుంది...</div>
+                <div id="response-error-box" class="error" style="display:none;"></div>
             </div>
-            <div id="response-box">సమాధానం ఇక్కడ కనిపిస్తుంది...</div>
-            <div id="error-box" class="error" style="display:none;"></div>
         </div>
+
     </div>
 
     <script>
+        // Use your API key here
+        const API_KEY = ""; // Since the user is testing, we will not provide the key here.
+
+        const loginSection = document.getElementById('login-section');
+        const mainContent = document.getElementById('main-content');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginButton = document.getElementById('login-button');
+        const loginErrorBox = document.getElementById('login-error-box');
         const questionInput = document.getElementById('question-input');
         const submitButton = document.getElementById('submit-button');
         const responseBox = document.getElementById('response-box');
-        const errorBox = document.getElementById('error-box');
-        const instructionsBox = document.getElementById('instructions-box');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const responseErrorBox = document.getElementById('response-error-box');
 
-        // Check for clipboard support
-        if (!navigator.clipboard) {
-            alert("Clipboard access not supported in this browser. Please manually copy your question to prompt.txt.");
-        }
+        // Simple login credentials
+        const validUsername = "baba";
+        const validPassword = "1936";
+
+        loginButton.addEventListener('click', () => {
+            const enteredUsername = usernameInput.value;
+            const enteredPassword = passwordInput.value;
+
+            if (enteredUsername === validUsername && enteredPassword === validPassword) {
+                loginSection.style.display = 'none';
+                mainContent.style.display = 'block';
+            } else {
+                loginErrorBox.textContent = 'తప్పు యూజర్‌నేమ్ లేదా పాస్‌వర్డ్.';
+                loginErrorBox.style.display = 'block';
+            }
+        });
 
         submitButton.addEventListener('click', async () => {
             const userQuery = questionInput.value.trim();
             if (userQuery === '') {
-                errorBox.textContent = 'దయచేసి ఒక ప్రశ్నను నమోదు చేయండి.';
-                errorBox.style.display = 'block';
+                responseErrorBox.textContent = 'దయచేసి ఒక ప్రశ్నను నమోదు చేయండి.';
+                responseErrorBox.style.display = 'block';
                 return;
             }
 
-            responseBox.textContent = 'సమాధానం కోసం చూస్తున్నాము...';
-            errorBox.style.display = 'none';
-            instructionsBox.style.display = 'block';
+            responseBox.textContent = ''; // Clear previous response
+            responseErrorBox.style.display = 'none';
+            loadingSpinner.style.display = 'block';
 
             try {
-                // Copy the user's prompt to the clipboard
-                await navigator.clipboard.writeText(userQuery);
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: userQuery }] }],
+                    })
+                });
 
-                // Start polling for the new response from response.txt
-                const checkInterval = setInterval(async () => {
-                    const response = await fetch('response.txt');
-                    if (response.ok) {
-                        const newAnswer = await response.text();
-                        responseBox.textContent = newAnswer;
-                        instructionsBox.style.display = 'none';
-                        clearInterval(checkInterval);
-                    }
-                }, 5000); // Check every 5 seconds
-            } catch (e) {
-                errorBox.textContent = `ప్రశ్నను కాపీ చేయడంలో సమస్య వచ్చింది. దయచేసి మళ్ళీ ప్రయత్నించండి. Error: ${e.message}`;
-                errorBox.style.display = 'block';
-                instructionsBox.style.display = 'none';
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text || 'సమాధానం అందుబాటులో లేదు.';
+                responseBox.textContent = text;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                responseErrorBox.textContent = `ప్రశ్న పంపడంలో సమస్య వచ్చింది. దయచేసి మళ్ళీ ప్రయత్నించండి. Error: ${error.message}`;
+                responseErrorBox.style.display = 'block';
+            } finally {
+                loadingSpinner.style.display = 'none';
             }
         });
     </script>
