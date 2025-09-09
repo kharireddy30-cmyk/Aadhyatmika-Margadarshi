@@ -1,1 +1,22 @@
 
+​{
+"name": "ఆధ్యాత్మిక మార్గదర్శి",
+"short_name": "ఆధ్యాత్మిక",
+"description": "ఆధ్యాత్మికతకు మీ మార్గదర్శి",
+"start_url": "/index.html",
+"display": "standalone",
+"background_color": "#ffffff",
+"theme_color": "#4CAF50",
+"icons": [
+{
+"src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Om_symbol.svg/1200px-Om_symbol.svg.png",
+"sizes": "192x192",
+"type": "image/png"
+},
+{
+"src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Om_symbol.svg/1200px-Om_symbol.svg.png",
+"sizes": "512x512",
+"type": "image/png"
+}
+]
+}
